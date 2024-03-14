@@ -34,7 +34,7 @@ describe("Bank", function () {
 
         const INITIAL_BALANCE = 10
 
-        await bank.deposit({value: BigInt(INITIAL_BALANCE)})
+        await bank.deposit(INITIAL_BALANCE)
 
         return { bank, owner }
     }
@@ -89,55 +89,103 @@ describe("Bank", function () {
 
     })
 
-    describe("Deposit funds (25 points total)", function() {
-        it("Should deposit funds into the account (+12.5 points)", async function () {
+    // describe("Deposit funds (25 points total)", function() {
+    //     it("Should deposit funds into the account (+12.5 points)", async function () {
+    //         const { bank, owner } = await loadFixture(deployAccountCreatedFixture)
+
+    //         await expect(bank.deposit({value: BigInt(10)})).to.changeEtherBalances(
+    //             [bank.target, owner],
+    //             [10, -10]
+    //         );
+
+    //         let account = await bank.accounts(owner)
+
+    //         expect(account.balance).to.equal(10)
+    //     }) 
+
+    //     it("Should not deposit if the user has not created an account (+12.5 points)", async function () {
+    //         const { bank, owner } = await loadFixture(deployFixture)
+  
+    //         await expect(bank.deposit({value: BigInt(10)})).to.be.reverted;
+    //     })
+    // })
+
+    // describe("Withdraw funds (+25 points)", function() {
+    //     it("Should subtract the amount from the balance (+9 points)", async function () {
+    //         const { bank, owner } = await loadFixture(deployAccountWithBalanceFixture)
+
+    //         await expect(bank.withdraw(BigInt(9))).to.changeEtherBalances(
+    //             [bank.target, owner],
+    //             [-9, 9]
+    //         );
+
+    //         let account = await bank.accounts(owner)
+
+    //         expect(account.balance).to.equal(1)
+    //     })
+
+    //     it("Should not withdraw if the user has not created an account (+8 points)", async function () {
+    //         const { bank, owner } = await loadFixture(deployFixture)
+  
+    //         await expect(bank.withdraw(BigInt(9))).to.be.reverted;
+    //     })
+
+    //     it("Should not withdraw if the user does not have enough funds in bank (+8 points)", async function () {
+    //         const { bank, owner } = await loadFixture(deployAccountWithBalanceFixture)
+
+    //         await expect(bank.withdraw(11)).to.be.reverted;
+    //     })
+    // })
+
+
+    describe("Deposit funds - Given to you, from previous assignment", function() {
+        it("Should deposit funds into the account", async function () {
             const { bank, owner } = await loadFixture(deployAccountCreatedFixture)
 
-            await expect(bank.deposit({value: BigInt(10)})).to.changeEtherBalances(
-                [bank.target, owner],
-                [10, -10]
-            );
+            await bank.deposit(10)
 
             let account = await bank.accounts(owner)
 
             expect(account.balance).to.equal(10)
+
         }) 
 
-        it("Should not deposit if the user has not created an account (+12.5 points)", async function () {
+        it("Should not deposit if the user has not created an account", async function () {
             const { bank, owner } = await loadFixture(deployFixture)
   
-            await expect(bank.deposit({value: BigInt(10)})).to.be.reverted;
+            await expect(bank.deposit(10)).to.be.reverted;
+
         })
     })
 
-    describe("Withdraw funds (+25 points)", function() {
-        it("Should subtract the amount from the balance (+9 points)", async function () {
+    describe("Withdraw funds - Given to you, from previous assignment", function() {
+        it("Should subtract the amount from the balance", async function () {
             const { bank, owner } = await loadFixture(deployAccountWithBalanceFixture)
 
-            await expect(bank.withdraw(BigInt(9))).to.changeEtherBalances(
-                [bank.target, owner],
-                [-9, 9]
-            );
+            await bank.withdraw(9)
 
             let account = await bank.accounts(owner)
 
             expect(account.balance).to.equal(1)
+
         })
 
-        it("Should not withdraw if the user has not created an account (+8 points)", async function () {
+        it("Should not withdraw if the user has not created an account", async function () {
             const { bank, owner } = await loadFixture(deployFixture)
   
-            await expect(bank.withdraw(BigInt(9))).to.be.reverted;
+            await expect(bank.withdraw(9)).to.be.reverted;
+
         })
 
-        it("Should not withdraw if the user does not have enough funds in bank (+8 points)", async function () {
+        it("Should not withdraw if the user does not have enough funds in bank", async function () {
             const { bank, owner } = await loadFixture(deployAccountWithBalanceFixture)
 
             await expect(bank.withdraw(11)).to.be.reverted;
+
         })
     })
 
-    describe("Hash username", function() {
+    describe("Hash username (+25 points)", function() {
         it("Should hash username with keccak256", async function() {
             const { bank, owner } = await loadFixture(deployFixture)
             let hash = await bank.hashUsername(TEST_USERNAME)
@@ -145,7 +193,7 @@ describe("Bank", function () {
         })
     })
 
-    describe("Search by username", function() {
+    describe("Search by username (+25 points)", function() {
         it("Should return the account of the username searched", async function() {
             const {bank, owner} = await loadFixture(deployAccountCreatedFixture)
 
