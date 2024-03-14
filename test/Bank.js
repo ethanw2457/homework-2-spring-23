@@ -34,7 +34,7 @@ describe("Bank", function () {
 
         const INITIAL_BALANCE = 10
 
-        await bank.deposit({value: INITIAL_BALANCE})
+        await bank.deposit({value: BigInt(INITIAL_BALANCE)})
 
         return { bank, owner }
     }
@@ -93,7 +93,7 @@ describe("Bank", function () {
         it("Should deposit funds into the account (+12.5 points)", async function () {
             const { bank, owner } = await loadFixture(deployAccountCreatedFixture)
 
-            await expect(bank.deposit({value: 10})).to.changeEtherBalances(
+            await expect(bank.deposit({value: BigInt(10)})).to.changeEtherBalances(
                 [bank.target, owner],
                 [10, -10]
             );
@@ -106,7 +106,7 @@ describe("Bank", function () {
         it("Should not deposit if the user has not created an account (+12.5 points)", async function () {
             const { bank, owner } = await loadFixture(deployFixture)
   
-            await expect(bank.deposit({value: 10})).to.be.reverted;
+            await expect(bank.deposit({value: BigInt(10)})).to.be.reverted;
         })
     })
 
@@ -114,7 +114,7 @@ describe("Bank", function () {
         it("Should subtract the amount from the balance (+9 points)", async function () {
             const { bank, owner } = await loadFixture(deployAccountWithBalanceFixture)
 
-            await expect(bank.withdraw(9)).to.changeEtherBalances(
+            await expect(bank.withdraw(BigInt(9))).to.changeEtherBalances(
                 [bank.target, owner],
                 [-9, 9]
             );
@@ -127,7 +127,7 @@ describe("Bank", function () {
         it("Should not withdraw if the user has not created an account (+8 points)", async function () {
             const { bank, owner } = await loadFixture(deployFixture)
   
-            await expect(bank.withdraw(9)).to.be.reverted;
+            await expect(bank.withdraw(BigInt(9))).to.be.reverted;
         })
 
         it("Should not withdraw if the user does not have enough funds in bank (+8 points)", async function () {
